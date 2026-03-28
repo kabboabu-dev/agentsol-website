@@ -67,7 +67,7 @@ export default function HowItWorks() {
         </div>
 
         {/* Steps grid — first row: 3 cards, second row: 2 cards centred */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 40 }}>
+        <div className="steps-outer" style={{ display: 'flex', flexDirection: 'column', gap: 40 }}>
           <div
             className="steps-grid"
             style={{
@@ -232,18 +232,30 @@ export default function HowItWorks() {
       </div>
 
       <style>{`
-        @media (max-width: 1024px) {
-          .steps-grid { grid-template-columns: repeat(2, 1fr) !important; }
-          .steps-grid-bottom { grid-template-columns: repeat(2, 1fr) !important; max-width: 100% !important; }
-        }
-        @media (max-width: 768px) {
-          #how-it-works .sec-hdr { margin-bottom: 48px !important; }
-          .steps-grid, .steps-grid-bottom { gap: 20px !important; }
+        /* Tablet: all 5 cards in a single row by collapsing the two sub-grids */
+        @media (min-width: 641px) and (max-width: 1200px) {
+          .steps-outer {
+            display: grid !important;
+            grid-template-columns: repeat(5, 1fr) !important;
+            gap: 12px !important;
+          }
+          /* Make the two sub-grid wrappers invisible to layout so cards go straight into the parent grid */
+          .steps-outer .steps-grid,
+          .steps-outer .steps-grid-bottom {
+            display: contents !important;
+          }
+          /* Tighter card padding on tablet so text fits at 5 columns */
+          .step-card { padding: 28px 14px !important; }
+          .step-circle { width: 40px !important; height: 40px !important; font-size: 12px !important; }
         }
         @media (max-width: 640px) {
+          .steps-outer { display: flex !important; flex-direction: column !important; gap: 16px !important; }
           .steps-grid { grid-template-columns: 1fr !important; }
           .steps-grid-bottom { grid-template-columns: 1fr !important; }
           .step-card { padding: 28px 20px !important; }
+        }
+        @media (max-width: 768px) {
+          #how-it-works .sec-hdr { margin-bottom: 48px !important; }
         }
       `}</style>
     </section>
